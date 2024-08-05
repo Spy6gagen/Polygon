@@ -1,0 +1,667 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Home</title>
+    <style>
+        body {
+            height: 100vh; /* Set the body height to 100% of the viewport height */
+            background-color: rgba(0, 0, 0, 0.8); /* Semi-transparent background */
+            background-image: var(--bg-image, url('media/img/back.jpg')); /* Use CSS variable for background image */
+            background-size: cover; /* Make the background image cover the entire viewport */
+            background-repeat: no-repeat; /* Prevent the background image from repeating */
+            background-position: center; /* Center the background image */
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10 and IE 11 */
+            user-select: none; /* Standard syntax */
+        }
+        
+        #clock {
+            color: white; /* Text color */
+            font-size: 24px; /* Font size */
+            font-family: Arial, sans-serif; /* Font family */
+            position: absolute; /* Positioning relative to parent */
+            top: 20px; /* Distance from top */
+            right: 20px; /* Distance from right */
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.5); /* Text shadow for better visibility */
+        }
+        /* Added CSS for the border */
+        #warnwipe {
+            border: 2px solid white;
+            padding: 10px; /* Optional: Add padding for better appearance */
+            display: none; /* Hide by default */
+            text-align: center; /* Center align the content */
+            background-color: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+            -webkit-backdrop-filter: blur(5px); /* Apply backdrop filter for blur effect (WebKit) */
+            backdrop-filter: blur(5px); /* Apply backdrop filter for blur effect */
+            border-radius: 10px; /* Rounded corners */
+        }
+        /* Style for image button */
+        #start img {
+            width: 36px; /* Adjust image width */
+            height: auto; /* Maintain aspect ratio */
+            transition: width 0.3s ease; /* Smooth transition for width change */
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5)); /* Add drop shadow */
+        }
+        #toggleButton img,
+        #browse img,
+        #messenger img, #manual img, #filemanage img {
+            width: 20px; /* Adjust image width */
+            height: auto; /* Maintain aspect ratio */
+            transition: width 0.3s ease; /* Smooth transition for width change */
+            filter: drop-shadow(2px 2px 4px rgba(0, 0, 0, 0.5)); /* Add drop shadow */
+        }
+        #top {
+            backdrop-filter: blur(10px); /* Apply backdrop filter for blur effect */
+            padding: 10px; /* Add padding */
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2); /* Add a subtle border */
+
+            /* New gradient background */
+            background-image: linear-gradient(to bottom, rgba(252, 255, 253, 0.5), rgba(0, 0, 0, 0.5)); /* Black to transparent gradient */
+        }
+
+        /* Added hover effect */
+        button:not(#start):hover img {
+            width: 30px;
+        }
+
+        /* Start menu styling */
+        #startMenu {
+            position: absolute;
+            top: 50px;
+            left: 50px;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            border: 1px solid rgba(0, 0, 0, 0.2); /* Add a subtle border */
+            padding: 10px;
+            display: none;
+            z-index: 999; /* Ensure start menu appears on top */
+            backdrop-filter: blur(5px); /* Apply backdrop filter for blur effect */
+            border-radius: 10px; /* Rounded corners */
+        }
+        #startMenu ul {
+            list-style-type: none;
+            padding: 0;
+        }
+        #startMenu ul li {
+            margin-bottom: 5px;
+        }
+        .h1, .h2, .h3, .h4, .h5, .h6, .p, .button {
+            -webkit-user-select: none; /* Safari */
+            -ms-user-select: none; /* IE 10 and IE 11 */
+            user-select: none; /* Standard syntax */
+        }
+
+        /* Added CSS for button hover */
+        button:hover {
+            cursor: pointer;
+        }
+        /* Draggable windows */
+        .window {
+            width: 1280px;
+            min-width: 100px;
+            height: 720px;
+            min-height: 100px;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            border: 1px solid rgba(0, 0, 0, 0.2); /* Add a subtle border */
+            position: absolute;
+            display: none; /* Initially hidden */
+            overflow: hidden;
+            backdrop-filter: blur(5px); /* Apply backdrop filter for blur effect */
+            border-radius: 10px; /* Rounded corners */
+        }
+        .helpwindow {
+            width: 550px;
+            min-width: 100px;
+            height: 461px;
+            min-height: 100px;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            border: 1px solid rgba(0, 0, 0, 0.2); /* Add a subtle border */
+            position: absolute;
+            display: block; /* Initially hidden */
+            overflow: hidden;
+            backdrop-filter: blur(5px); /* Apply backdrop filter for blur effect */
+            border-radius: 10px; /* Rounded corners */
+        }
+        .windowprg {
+            width: 550px;
+            min-width: 100px;
+            height: 461px;
+            min-height: 100px;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            border: 1px solid rgba(0, 0, 0, 0.2); /* Add a subtle border */
+            position: absolute;
+            display: none; /* Initially hidden */
+            overflow: hidden;
+            backdrop-filter: blur(5px); /* Apply backdrop filter for blur effect */
+            border-radius: 10px; /* Rounded corners */
+        }
+
+        .popout {
+            width: 500px;
+            min-width: 50px;
+            height: 300px;
+            min-height: 50px;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            border: 1px solid rgba(0, 0, 0, 0.2); /* Add a subtle border */
+            position: absolute;
+            display: none; /* Initially hidden */
+            overflow: hidden;
+            backdrop-filter: blur(5px); /* Apply backdrop filter for blur effect */
+            border-radius: 10px; /* Rounded corners */
+        }
+        
+        .window123 {
+            width: 1000px;
+            min-width: 100px;
+            height: 720px;
+            min-height: 100px;
+            background-color: rgba(255, 255, 255, 0.9); /* Semi-transparent background */
+            border: 1px solid rgba(0, 0, 0, 0.2); /* Add a subtle border */
+            position: absolute;
+            display: none; /* Initially hidden */
+            overflow: hidden;
+            backdrop-filter: blur(5px); /* Apply backdrop filter for blur effect */
+            border-radius: 10px; /* Rounded corners */
+        }
+        .window-header {
+            width: calc(100% - 8px);
+            height: 20px;
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent background */
+            cursor: move;
+            padding: 4px;
+            position: relative;
+        }
+        .window-close {
+            position: absolute;
+            top: 0;
+            right: 0;
+            padding: 2px;
+            cursor: pointer;
+        }
+        .window-content {
+            padding: 20px;
+            overflow: auto;
+        }
+        .resize-handle {
+            width: 50px; /* Increase the width */
+            height: 30px; /* Increase the height */
+            background-color: #333;
+            position: absolute;
+            bottom: -10px; /* Adjust positioning to align with the window edge */
+            right: -10px; /* Adjust positioning to align with the window edge */
+            cursor: nwse-resize;
+            z-index: 1; /* Ensure the handle is above the window border */
+        }
+        #audioSpectrum {
+            position: absolute;
+            bottom: 20px; /* Adjust as needed */
+            left: 20px; /* Adjust as needed */
+            width: 100%; /* Occupy full width */
+            height: 100px; /* Set a fixed height for the spectrum */
+            background-color: rgba(0, 0, 0, 0.6); /* Semi-transparent background */
+        }
+
+        .context-menu {
+            position: absolute;
+            text-align: center;
+            background: white;
+            border: 1px solid black;
+        }
+
+        .context-menu ul {
+            padding: 0px;
+            margin: 0px;
+            min-width: 150px;
+            list-style: none;
+        }
+
+        .context-menu ul li {
+            padding-bottom: 7px;
+            padding-top: 7px;
+            border: 1px solid black;
+        }
+
+        .context-menu ul li a {
+            text-decoration: none;
+            color: black;
+        }
+
+        .context-menu ul li:hover {
+            background: grey;
+        }
+          .spacer {
+            height: 20px; /* Adjust the height as needed */
+          }
+         .centered-text {
+            text-align: center; /* Center the text within the element */
+          }
+    </style>
+</head>
+<body>
+    <div id="top">
+        <div id="clock"></div>
+        <!-- Image button -->
+        <button id="start"><img src="media/img/home.png" alt="Logo"></button>
+        <!-- Browse -->
+        <button id="messenger" onclick="openWindow('window1')"><img src="media/img/browse.png"></button>
+        <!-- Messenger -->
+        <button id="messenger"><img src="media/img/messenger.png" alt="Messenger"></button>
+        <!-- Manual -->
+        <button id="manual" onclick="openWindow('window2')"><img src="media/img/infomation.png" alt="Manual"></button>
+        <!-- File Manager -->
+        <button id="filemanage" onclick="openWindow('window3')"><img src="media/img/files.png" alt="File Manager"></button>
+
+    </div>
+    <div id="warnwipe">
+        <h2>Are You Sure?</h2>
+        <p>Click the Wipe button again to cancel this action</p>
+        <p>Wiping this device is an irreversible action meaning you can't revert this. All data including contacts, browsing history, accounts, etc. saved on this device will be permanently deleted.</p>
+        <a href="wiped.html"><button>Yes, Wipe This Device</button></a>
+    </div>
+    <br>
+    <!-- Start menu -->
+    <div id="startMenu">
+        <ul>
+            <p>Upload A Background</p>
+            <input type="file" id="bgImageInput">
+            <br>
+        </ul>
+    </div>
+
+    <div id="contextMenu" class="context-menu" style="display:none">
+        <ul>
+            <li><a onclick="openWindow('window2')">Help</a></li>
+        </ul>
+    </div>
+
+<div id="window1" class="window">
+    <div class="window-header" onmousedown="startDragging(event, 'window1')">
+        <img src="media/img/browse.png" width="15px">
+        Browser
+        <div class="window-close" onclick="closeWindow('window1')">X</div>
+    </div>
+    <div class="window-content">
+        <embed src="applications/browser.html" width="1280" height="720">
+    </div>
+    <div class="resize-handle" onmousedown="startResizing(event, 'window1')"></div>
+</div>
+    
+<div id="window9" class="window">
+    
+    <div class="window-header" onmousedown="startDragging(event, 'window9')">
+        <img src="media/img/files.png" width="15px">
+        File Manager
+        <div class="window-close" onclick="closeWindow('window9')">X</div>
+    </div>
+    <div class="window-content">
+        <embed src="applications/iframe.html" width="1280" height="720">
+    </div>
+    <div class="resize-handle" onmousedown="startResizing(event, 'window9')"></div>
+</div>
+
+    <div id="window10" class="window">
+        <div class="window-header" onmousedown="startDragging(event, 'window10')">
+            <img src="media/img/files.png" width="15px">
+            Index Emulate
+            <div class="window-close" onclick="closeWindow('window10')">X</div>
+        </div>
+        <div class="window-content">
+            <embed src="index.html" width="1280" height="720">
+        </div>
+        <div class="resize-handle" onmousedown="startResizing(event, 'window10')"></div>
+    </div>
+    
+    <div id="window5" class="window123">
+        <div class="window-header" onmousedown="startDragging(event, 'window5')">
+            <img src="media/img/browse.png" width="15px">
+            Browser
+            <div class="window-close" onclick="closeWindow('window5')">X</div>
+        </div>
+        <div class="window-content">
+            <embed src="applications/123movies.html" width="1280" height="720">
+        </div>
+        <div class="resize-handle" onmousedown="startResizing(event, 'window5')"></div>
+    </div>
+
+<div id="window4" class="window">
+    <div class="window-header" onmousedown="startDragging(event, 'window4')">
+        <img src="media/img/music.png" width="15px">
+        Musical Studio
+        <div class="window-close" onclick="closeWindow('window4')">X</div>
+    </div>
+    <div class="window-content">
+        <h1>Audio Player</h1>
+        <input type="file" id="musicFileInput" accept="audio/*" onchange="handleMusicFile(this)">
+        <br>
+        <br>
+        <canvas id="audioSpectrum"></canvas>
+        <audio id="audioPlayer" controls>
+            <source id="audioSource" type="audio/mpeg">
+            Polygon OS on this device does not support the audio element.
+        </audio>
+        <br>
+    </div>
+    <div class="resize-handle" onmousedown="startResizing(event, 'window4')"></div>
+</div>
+
+<div id="window3" class="windowprg">
+    <div class="window-header" onmousedown="startDragging(event, 'window3')">
+        <img src="media/img/files.png" width="15px">
+        Program Manager
+        <div class="window-close" onclick="closeWindow('window3')">X</div>
+    </div>
+    <div class="window-content">
+        <h1>Program Manager</h1>
+        <div style="display: flex; justify-content: space-around;"> 
+          <button onclick="openWindow('window4')">
+            <img src="media/img/music.png" width="30" height="auto">
+            Musical Studio
+          </button>
+          <button onclick="openWindow('window5')">
+            <img src="media/img/123.png" width="30" height="auto">
+            123movies
+          </button>
+          <button onclick="openWindow('window6')">
+            <img src="media/img/browse.png" width="30" height="auto">
+            js-dos
+          </button>
+          <button onclick="openWindow('window9')">
+            <img src="media/img/files.png" width="30" height="auto">
+            File Manager
+          </button>
+          <button onclick="openWindow('window10')">
+            <img src="media/img/logo.png" width="30" height="auto">
+            Index Emulate
+          </button>
+            <button onclick="openWindow('window13')">
+                <img src="media/img/logo.png" width="30" height="auto">
+                Enterprise Tools
+            </button>
+        </div>
+    </div>
+    <div class="resize-handle" onmousedown="startResizing(event, 'window3')"></div>
+    </div>
+
+    <div id="window13" class="windowprg">
+        <div class="window-header" onmousedown="startDragging(event, 'window13')">
+            <img src="media/img/logo.png" width="15px">
+            Enterprise Tools
+            <div class="window-close" onclick="closeWindow('window13')">X</div>
+        </div>
+        <div class="window-content">
+              <a href="Powergon.html">
+                  <button>
+                <img src="media/img/logo.png" width="30" height="auto">
+                Powergon Environment
+                  </button>
+              </a>
+        </div>
+        <div class="resize-handle" onmousedown="startResizing(event, 'window13')"></div>
+        </div>
+
+    
+    <div id="window6" class="windowprg">
+        <div class="window-header" onmousedown="startDragging(event, 'window6')">
+            <img src="media/img/files.png" width="15px">
+            js-dos
+            <div class="window-close" onclick="closeWindow('window6')">X</div>
+        </div>
+        <div class="window-content">
+            <embed src="applications/js-dos.html" width="1000" height="500">
+        </div>
+        <div class="resize-handle" onmousedown="startResizing(event, 'window6')"></div>
+        </div>
+    
+<div id="window2" class="helpwindow">
+    <div class="window-header" onmousedown="startDragging(event, 'window2')">
+        <img src="media/img/infomation.png" width="15px">
+        Infomation/Manual on Polygon
+        <div class="window-close" onclick="closeWindow('window2')">X</div>
+    </div>
+    <div class="window-content">
+        <h1>Polygon Manual</h1>
+        <p>Table of contents</p>
+        <ul>
+            <li>
+                Updates
+            </li>
+            <li>
+                Features
+            </li>
+            <li>
+                How to use
+            </li>
+        </ul>
+    </div>
+    <div class="resize-handle" onmousedown="startResizing(event, 'window2')"></div>
+    </div>
+
+    <script>
+function loadURL() {
+    var inputUrl = document.getElementById("url-input").value;
+    var iframe = document.getElementById("website-frame");
+    if (inputUrl.startsWith('http://') || inputUrl.startsWith('https://')) {
+        iframe.src = inputUrl;
+    } else {
+        // If the input is not a valid URL, assume it's a search query and navigate to Google
+        iframe.src = 'https://www.google.com/search?q=' + encodeURIComponent(inputUrl);
+    }
+}
+
+        // Toggle start menu visibility
+        document.getElementById('start').addEventListener('click', function() {
+            var startMenuDiv = document.getElementById('startMenu');
+            if (startMenuDiv.style.display === 'none') {
+                startMenuDiv.style.display = 'block';
+            } else {
+                startMenuDiv.style.display = 'none';
+            }
+        });
+
+        // Toggle warning message visibility
+
+        // Update background image dynamically
+        document.getElementById('bgImageInput').addEventListener('change', function(event) {
+            var file = event.target.files[0];
+            var reader = new FileReader();
+            reader.onload = function(e) {
+                document.body.style.setProperty('--bg-image', 'url(' + e.target.result + ')');
+            };
+            reader.readAsDataURL(file);
+        });
+
+        // Update clock
+        function updateClock() {
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+            // Add leading zeros if needed
+            hours = hours < 10 ? "0" + hours : hours;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            var timeString = hours + ":" + minutes + ":" + seconds;
+            document.getElementById('clock').textContent = timeString;
+        }
+
+        // Update clock every second
+        setInterval(updateClock, 1000);
+
+        // Function to start dragging the window
+        function startDragging(e, windowId) {
+            var window = document.getElementById(windowId);
+            var offsetX = e.clientX - window.offsetLeft;
+            var offsetY = e.clientY - window.offsetTop;
+
+            function drag(e) {
+                window.style.left = (e.clientX - offsetX) + "px";
+                window.style.top = (e.clientY - offsetY) + "px";
+            }
+
+            function stopDragging() {
+                window.removeEventListener('mousemove', drag);
+                window.removeEventListener('mouseup', stopDragging);
+            }
+
+            window.addEventListener('mousemove', drag);
+            window.addEventListener('mouseup', stopDragging);
+        }
+
+        // Function to start resizing the window
+        // Function to start resizing the window
+        function startResizing(e, windowId) {
+            var window = document.getElementById(windowId);
+            var initialWidth = window.offsetWidth;
+            var initialHeight = window.offsetHeight;
+            var startX = e.clientX;
+            var startY = e.clientY;
+            var resizing = true; // Flag to indicate resizing is in progress
+
+            function resize(e) {
+                if (resizing) {
+                    var newWidth = initialWidth + (e.clientX - startX);
+                    var newHeight = initialHeight + (e.clientY - startY);
+                    window.style.width = newWidth + 'px';
+                    window.style.height = newHeight + 'px';
+                }
+            }
+
+            function stopResizing() {
+                resizing = false; // Reset resizing flag
+                window.removeEventListener('mousemove', resize);
+                window.removeEventListener('mouseup', stopResizing);
+            }
+
+            // Stop resizing on mouseup anywhere on the document
+            document.addEventListener('mouseup', stopResizing);
+
+            window.addEventListener('mousemove', resize);
+            window.addEventListener('mouseup', stopResizing);
+        }
+
+
+        // Function to close the window
+        function closeWindow(windowId) {
+            var window = document.getElementById(windowId);
+            window.style.display = 'none';
+        }
+
+        // Function to open the window
+        function openWindow(windowId) {
+            var window = document.getElementById(windowId);
+            window.style.display = 'block';
+        }
+        function handleMusicFile(input) {
+            if (input.files && input.files[0]) {
+                var reader = new FileReader();
+                reader.onload = function(e) {
+                    var audioPlayer = document.getElementById('audioPlayer');
+                    var audioSource = document.getElementById('audioSource');
+                    audioSource.src = e.target.result;
+                    audioPlayer.load(); // Reload the audio element to apply changes
+                    setupAudio(); // Setup the audio context and visualizer
+                };
+                reader.readAsDataURL(input.files[0]);
+            }
+        }
+
+        // Function to set up the audio context and visualizer
+        function setupAudio() {
+            var audioPlayer = document.getElementById('audioPlayer');
+            var audioContext = new (window.AudioContext || window.webkitAudioContext)();
+            var analyser = audioContext.createAnalyser();
+
+            var source = audioContext.createMediaElementSource(audioPlayer);
+            source.connect(analyser);
+            analyser.connect(audioContext.destination);
+
+            var canvas = document.getElementById('audioSpectrum');
+            var ctx = canvas.getContext('2d');
+
+            function draw() {
+                var bufferLength = analyser.frequencyBinCount;
+                var dataArray = new Uint8Array(bufferLength);
+
+                analyser.getByteFrequencyData(dataArray);
+
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+                var barWidth = (canvas.width / bufferLength) * 2.5;
+                var barHeight;
+                var x = 0;
+
+                for (var i = 0; i < bufferLength; i++) {
+                    barHeight = dataArray[i] / 2;
+
+                    ctx.fillStyle = 'rgb(' + (barHeight + 100) + ',50,50)';
+                    ctx.fillRect(x, canvas.height - barHeight, barWidth, barHeight);
+
+                    x += barWidth + 1;
+                }
+
+                requestAnimationFrame(draw);
+            }
+
+            draw();
+        }
+        // Update clock
+        function updateClock() {
+            var now = new Date();
+            var hours = now.getHours();
+            var minutes = now.getMinutes();
+            var seconds = now.getSeconds();
+
+            // Convert hours to 12-hour format and determine AM/PM
+            var meridian = hours >= 12 ? 'PM' : 'AM';
+            hours = hours % 12 || 12; // Convert hour 0 to 12
+
+            // Add leading zeros if needed
+            hours = hours < 10 ? "0" + hours : hours;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+
+            var timeString = hours + ":" + minutes + ":" + seconds + " " + meridian;
+            document.getElementById('clock').textContent = timeString;
+        }
+        document.onclick = hideMenu;
+        document.oncontextmenu = rightClick;
+
+        function hideMenu() {
+            document.getElementById(
+                "contextMenu").style.display = "none"
+        }
+
+        function rightClick(e) {
+            e.preventDefault();
+
+            if (document.getElementById(
+                "contextMenu").style.display == "block")
+                hideMenu();
+            else {
+                let menu = document
+                    .getElementById("contextMenu")
+
+                menu.style.display = 'block';
+                menu.style.left = e.pageX + "px";
+                menu.style.top = e.pageY + "px";
+            }
+        }
+        
+                // Function to play the sound effect
+        function playSoundEffect() {
+            // Replace with your actual sound effect URL
+            var soundEffectUrl = 'media/aud/vista.mp3';
+
+            // Create an audio element
+            var audio = new Audio(soundEffectUrl);
+
+            // Play the sound effect
+            audio.play();
+        }
+
+        // Call the function when the page finishes loading
+        window.addEventListener('load', playSoundEffect);
+
+    </script>
+
+</body>
+</html>
